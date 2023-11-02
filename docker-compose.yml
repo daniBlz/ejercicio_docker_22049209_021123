@@ -1,0 +1,41 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - mi-red
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mi-red
+
+  jupyterlab:
+    image: jupyter/base-notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - jupyterlab_workspace:/home/jovyan/work
+    networks:
+      - mi-red
+
+volumes:
+  grafana_data:
+  postgres_data:
+  jupyterlab_workspace:
+
+networks:
+  mi-red:
+  
